@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"microservicesWithGo/samples/grpc/hello"
 
 	"google.golang.org/grpc"

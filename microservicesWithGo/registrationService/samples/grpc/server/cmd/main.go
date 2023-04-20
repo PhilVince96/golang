@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	log "github.com/sirupsen/logrus"
 	"microservicesWithGo/samples/grpc/hello"
 	"microservicesWithGo/samples/grpc/server"
 	"net"

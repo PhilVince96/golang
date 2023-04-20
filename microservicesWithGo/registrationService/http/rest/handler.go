@@ -2,7 +2,7 @@ package rest
 
 import (
 	"learnGolang/microservicesWithGo/registration"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )

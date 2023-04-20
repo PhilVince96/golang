@@ -1,8 +1,8 @@
 package nats
 
 import (
+	log "github.com/sirupsen/logrus"
 	"learnGolang/microservicesWithGo/registration"
-	"log"
 
 	"github.com/nats-io/nats.go"
 )
@@ -10,10 +10,11 @@ import (
 type Notifier struct{}
 
 func (nn *Notifier) InformAboutNewRegistration(registration *registration.Registration) error {
-	log.Println("Inform about new registration")
+	registrationLogger := log.WithField("Registration", registration)
+	registrationLogger.Info("Inform about new registration.")
 	nc, err := nats.Connect(nats.DefaultURL)
 	if err != nil {
-		log.Println("Could not connect to server: ", err)
+		registrationLogger.WithError(err).Error("Could not connect to server.")
 		return err
 	}
 	defer nc.Close()
