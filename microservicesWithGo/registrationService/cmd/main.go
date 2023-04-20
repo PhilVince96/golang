@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"learnGolang/microservicesWithGo/registration"
 	"learnGolang/microservicesWithGo/registration/http/rest"
 	"learnGolang/microservicesWithGo/registration/nats"
@@ -8,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -19,6 +21,13 @@ func main() {
 	// r.Use(middleware.Heartbeat("/ping"))
 	r.Use(middleware.AllowContentType("application/x-www-form-urlencoded"))
 	r.Post("/", regHandler.ServeHTTP)
+	r.Get("/registration", func(w http.ResponseWriter, r *http.Request) {
+		template, err := template.ParseFiles("templates/registration.gohtml")
+		if err != nil {
+			log.Errorf("Could not parse template files. Error: %v", err)
+		}
+		template.Execute(w, nil)
+	})
 
 	http.ListenAndServe(":8080", r)
 }

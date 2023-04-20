@@ -1,8 +1,8 @@
 package rest
 
 import (
-	"learnGolang/microservicesWithGo/registration"
 	log "github.com/sirupsen/logrus"
+	"learnGolang/microservicesWithGo/registration"
 	"net/http"
 	"strconv"
 )
@@ -33,7 +33,7 @@ func (rh *RegistrationHandler) ServeHTTP(rw http.ResponseWriter, req *http.Reque
 	registration.Email = req.Form.Get("Email")
 	registration.Company = req.Form.Get("Company")
 	registration.Date = req.Form.Get("Date")
-	registration.Trainingcode = req.Form.Get("Trainingcode")
+	registration.Trainingcode = req.Form.Get("Trainingscode")
 
 	b, err := strconv.ParseBool(req.Form.Get("PrivacyProtectionAccepted"))
 	if err != nil {
