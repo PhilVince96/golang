@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
@@ -14,6 +15,8 @@ func main() {
 	service := registration.NewRegistrationService(notifier)
 	regHandler := rest.NewRegistrationHandler(service)
 	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Use(middleware.AllowContentType("application/x-www-form-urlencoded"))
 	r.Post("/", regHandler.ServeHTTP)
 
 	http.ListenAndServe(":8080", r)
