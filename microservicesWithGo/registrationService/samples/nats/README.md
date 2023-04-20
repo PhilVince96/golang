@@ -2,7 +2,7 @@
 docker pull nats
 
 ## Start a Docker Container
-docker run -d --name nats-main -p 4222:4222 -p 8222:8222 nats
+docker run -d --name nats -p 4222:4222 -p 8222:8222 nats
 
 ## Stop the Docker container
 docker stop nats-main
