@@ -10,3 +10,7 @@ type Registration struct {
 	PrivacyProctectionAccepted bool
 	// no address for now
 }
+
+type RegistrationNotifier interface {
+	InformAboutNewRegistration(reg *Registration) error
+}

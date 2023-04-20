@@ -1,12 +1,21 @@
-package registration
+package rest
 
 import (
+	"learnGolang/microservicesWithGo/registration"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-type RegistrationHandler struct{}
+type RegistrationHandler struct {
+	service *registration.RegistrationService
+}
+
+func NewRegistrationHandler(service *registration.RegistrationService) *RegistrationHandler {
+	return &RegistrationHandler{
+		service,
+	}
+}
 
 func (rh *RegistrationHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	err := req.ParseForm()
@@ -16,7 +25,7 @@ func (rh *RegistrationHandler) ServeHTTP(rw http.ResponseWriter, req *http.Reque
 		return
 	}
 
-	registration := &Registration{}
+	registration := &registration.Registration{}
 
 	// read from form
 	registration.Firstname = req.Form.Get("Firstname")
@@ -34,5 +43,12 @@ func (rh *RegistrationHandler) ServeHTTP(rw http.ResponseWriter, req *http.Reque
 	}
 	registration.PrivacyProctectionAccepted = b
 	log.Printf("new registration %+v", registration)
+
+	err = rh.service.HandleNewRegistration(registration)
+	if err != nil {
+		log.Printf("Could not handle registration: %v", err)
+		rw.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	rw.WriteHeader(http.StatusCreated)
 }
