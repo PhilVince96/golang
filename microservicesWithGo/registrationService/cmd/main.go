@@ -16,6 +16,7 @@ func main() {
 	regHandler := rest.NewRegistrationHandler(service)
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	// r.Use(middleware.Heartbeat("/ping"))
 	r.Use(middleware.AllowContentType("application/x-www-form-urlencoded"))
 	r.Post("/", regHandler.ServeHTTP)
 
