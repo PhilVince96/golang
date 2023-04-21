@@ -15,13 +15,13 @@ import (
 )
 
 func main() {
-	chiProm := chiprometheus.NewMiddleware("serviceName")
 	notifier := &nats.Notifier{}
 	service := registration.NewRegistrationService(notifier)
 	regHandler := rest.NewRegistrationHandler(service)
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Use(chiProm)
+	r.Use(rest.RateLimiter)
+	r.Use(chiprometheus.NewMiddleware("serviceName"))
 	// r.Use(middleware.Heartbeat("/ping"))
 	r.Use(middleware.AllowContentType("application/x-www-form-urlencoded"))
 	r.Post("/", regHandler.ServeHTTP)
